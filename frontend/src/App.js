@@ -15,9 +15,9 @@ import {
 function App() {
   return (
     <Box>
-      <Navbar />
-      <Alert />
       <BrowserRouter>
+        <Navbar />
+        <Alert />
         <Container>
           <Routes>
             <Route path="/" element={<UserPage />} />
