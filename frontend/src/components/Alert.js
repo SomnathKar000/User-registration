@@ -1,7 +1,16 @@
 import React from "react";
+import { Alert, Snackbar } from "@mui/material";
+import { useUserContext } from "../context/context";
 
-const Alert = () => {
-  return <div>Alert</div>;
+const AlertComponent = () => {
+  const { closeAlert, alert } = useUserContext();
+  return (
+    <Snackbar open={alert.open} autoHideDuration={6000} onClose={closeAlert}>
+      <Alert onClose={closeAlert} severity={alert.type} sx={{ width: "100%" }}>
+        {alert.message}
+      </Alert>
+    </Snackbar>
+  );
 };
 
-export default Alert;
+export default AlertComponent;

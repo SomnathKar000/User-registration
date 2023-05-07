@@ -10,7 +10,10 @@ import DarkModeIcon from "@mui/icons-material/DarkMode";
 import LightModeIcon from "@mui/icons-material/LightMode";
 import { Tooltip } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { useUserContext } from "../context/context";
+
 const Navbar = () => {
+  const { changeMode, mode } = useUserContext();
   const history = useNavigate();
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -37,9 +40,13 @@ const Navbar = () => {
           >
             Login
           </Button>
-          <Tooltip title="Enable dark mode">
-            <IconButton>
-              <DarkModeIcon />
+          <Tooltip title={`Enable ${mode === "light" ? "dark" : "light"} mode`}>
+            <IconButton onClick={changeMode} sx={{ color: "white" }}>
+              {mode === "dark" ? (
+                <LightModeIcon fontSize="inherit" />
+              ) : (
+                <DarkModeIcon fontSize="inherit" />
+              )}
             </IconButton>
           </Tooltip>
         </Toolbar>
