@@ -22,7 +22,7 @@ const UserContext = createContext();
 
 export const ContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
-  let host = window.location.origin;
+  let host = "http://localhost:5000";
   const changeMode = () => {
     dispatch({ type: "CHANGE_MODE" });
   };
