@@ -13,7 +13,7 @@ import { useNavigate } from "react-router-dom";
 import { useUserContext } from "../context/context";
 
 const Navbar = () => {
-  const { changeMode, mode } = useUserContext();
+  const { changeMode, mode, LogOutUser, user } = useUserContext();
   const history = useNavigate();
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -32,14 +32,20 @@ const Navbar = () => {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             USER
           </Typography>
-          <Button
-            onClick={() => {
-              history("/login");
-            }}
-            color="inherit"
-          >
-            Login
-          </Button>
+          {Object.keys(user).length === 0 ? (
+            <Button
+              onClick={() => {
+                history("/login");
+              }}
+              color="inherit"
+            >
+              Login
+            </Button>
+          ) : (
+            <Button href="login" onClick={LogOutUser} color="inherit">
+              Logout
+            </Button>
+          )}
           <Tooltip title={`Enable ${mode === "light" ? "dark" : "light"} mode`}>
             <IconButton onClick={changeMode} sx={{ color: "white" }}>
               {mode === "dark" ? (

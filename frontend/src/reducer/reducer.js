@@ -36,6 +36,22 @@ const reducer = (state, action) => {
     return { ...state, dialog: { ...state.dialog, open: false } };
   }
 
+  if (action.type === "GET_USER_DATA") {
+    const { name, email, password } = action.payload;
+    const user = {
+      Name: name,
+      Email: email,
+      Password: password,
+    };
+    return { ...state, user };
+  }
+  if (action.type === "LOGOUT_USER") {
+    return { ...state, user: {} };
+  }
+  if (action.type === "CHANGE_EDID_DATA") {
+    return { ...state, dialog: { ...state.dialog, value: action.payload } };
+  }
+
   return { ...state };
 };
 

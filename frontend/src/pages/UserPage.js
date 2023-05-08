@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
@@ -11,12 +11,14 @@ import BorderColorIcon from "@mui/icons-material/BorderColor";
 import Divider from "@mui/material/Divider";
 import { Paper, Box, IconButton, Tooltip } from "@mui/material";
 import { useUserContext } from "../context/context";
+import { useNavigate } from "react-router-dom";
 
 const UserPage = () => {
-  const { openDialog } = useUserContext();
+  const { openDialog, GetUser, user } = useUserContext();
+  const history = useNavigate();
 
   let iconArr = [<AccessibilityNewIcon />, <EmailIcon />, <PasswordIcon />];
-  let user = { Name: "Somnath", Email: "somnath@gmail.com", Password: "*****" };
+
   const listItems = [];
 
   for (let key in user) {
@@ -46,7 +48,13 @@ const UserPage = () => {
       </Box>
     );
   }
-
+  useEffect(() => {
+    if (!localStorage.getItem("token")) {
+      history("/login");
+    } else {
+      GetUser();
+    }
+  }, []);
   return (
     <Paper sx={{ marginX: "20%", marginY: "10%" }}>
       <List>{listItems}</List>

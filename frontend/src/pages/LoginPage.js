@@ -1,12 +1,33 @@
-import React from "react";
+import React, { useRef, useEffect } from "react";
 import { FormControl, Button, TextField, Typography, Box } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useUserContext } from "../context/context";
 
 const LoginPage = () => {
-  const handleSubmit = (e) => {
-    e.preventDefault();
-  };
+  const { LoginUser, openAlert } = useUserContext();
+  const history = useNavigate();
+  const emailRef = useRef(null);
+  const passwordRef = useRef(null);
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const email = emailRef.current.value;
+    const password = passwordRef.current.value;
+    if (password.length < 6) {
+      openAlert("Password must be 6 characters", "info");
+      return;
+    }
+    let result = await LoginUser(email, password);
+    if (result) {
+      history("/");
+      return;
+    }
+  };
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      history("/");
+    }
+  }, []);
   return (
     <Box>
       <FormControl
@@ -23,8 +44,19 @@ const LoginPage = () => {
         <Typography variant="h4" textAlign="center">
           Login Page
         </Typography>
-        <TextField label="Email" variant="standard" />
-        <TextField type="password" label="Password" variant="standard" />
+        <TextField
+          required={true}
+          inputRef={emailRef}
+          label="Email"
+          variant="standard"
+        />
+        <TextField
+          required={true}
+          inputRef={passwordRef}
+          type="password"
+          label="Password"
+          variant="standard"
+        />
         <Button variant="contained" type="submit">
           Submit
         </Button>

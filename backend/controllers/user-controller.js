@@ -80,17 +80,38 @@ const GetUser = async (req, res) => {
 const UpdateUser = async (req, res) => {
   let user = await User.findById(req.user.id).select("-_id -__v");
   if (!user) {
-    throw new customError("User does not exsist", 404);
+    throw new customError("User does not exist", 404);
   }
+
+  if (!req.body.updateData || !req.body.password) {
+    throw new customError("Missing required fields", 400);
+  }
+
   const { updateData, password } = req.body;
   const comparePassword = await bcrypt.compare(password, user.password);
   if (!comparePassword) {
     throw new customError("Password does not match", 404);
   }
+
   if (updateData.email) {
-    const emailExsist = await User.findOne({ email: updateData.email });
-    if (emailExsist) {
-      throw new customError("This email already exsist", 400);
+    if (!validator.validate(updateData.email)) {
+      throw new customError("Invalid email", 400);
+    }
+    const emailExist = await User.findOne({ email: updateData.email });
+    if (emailExist) {
+      throw new customError("This email already exists", 400);
+    }
+  }
+
+  if (updateData.password) {
+    const salt = await bcrypt.genSalt(10);
+    const securePassword = await bcrypt.hash(updateData.password, salt);
+    updateData.password = securePassword;
+  }
+
+  if (updateData.name) {
+    if (updateData.name.trim().length < 5) {
+      throw new customError("Enter a valid name", 400);
     }
   }
 
