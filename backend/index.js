@@ -1,5 +1,6 @@
 require("dotenv").config();
 require("express-async-errors");
+const cors = require("cors");
 const connectDB = require("./db/connect");
 const errorHandler = require("./middlewares/error-handler");
 const notFoundHandler = require("./middlewares/not-found");
@@ -10,6 +11,9 @@ const express = require("express");
 const app = express();
 
 const port = 5000 || process.env.PORT;
+
+app.use(express.json());
+app.use(cors());
 
 app.use("/api/v1/user", userRoute);
 
