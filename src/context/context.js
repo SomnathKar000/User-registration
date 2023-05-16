@@ -35,6 +35,13 @@ export const ContextProvider = ({ children }) => {
       return;
     }
   };
+  const startLoading = () => {
+    dispatch({ type: "START_LOADING" });
+  };
+  const endLoading = () => {
+    dispatch({ type: "END_LOADING" });
+  };
+
   const openDialog = (title, value, type) => {
     dispatch({ type: "OPEN_DIALOG", payload: { title, value, type } });
   };
@@ -43,6 +50,7 @@ export const ContextProvider = ({ children }) => {
   };
 
   const LoginUser = async (email, password) => {
+    startLoading();
     try {
       const response = await Axios.post(`${host}/api/v1/user/login`, {
         email,
@@ -50,15 +58,18 @@ export const ContextProvider = ({ children }) => {
       });
       if (response.data.success) {
         localStorage.setItem("token", response.data.token);
+        endLoading();
         openAlert(response.data.msg, "success");
         return true;
       }
     } catch (error) {
+      endLoading();
       openAlert(error.response.data.msg, "error");
       return false;
     }
   };
   const SignUpUser = async (name, email, password) => {
+    startLoading();
     try {
       const response = await Axios.post(`${host}/api/v1/user/sign-up`, {
         name,
@@ -67,10 +78,12 @@ export const ContextProvider = ({ children }) => {
       });
       if (response.data.success) {
         localStorage.setItem("token", response.data.token);
+        endLoading();
         openAlert(response.data.msg, "success");
         return true;
       }
     } catch (error) {
+      endLoading();
       openAlert(error.response.data.msg, "error");
       return false;
     }
@@ -80,7 +93,7 @@ export const ContextProvider = ({ children }) => {
     if (!token) {
       return;
     }
-
+    startLoading();
     try {
       const response = await Axios.get(`${host}/api/v1/user`, {
         headers: {
@@ -89,16 +102,19 @@ export const ContextProvider = ({ children }) => {
       });
       if (response.data.success) {
         dispatch({ type: "GET_USER_DATA", payload: response.data.user });
+        endLoading();
         return;
       }
     } catch (error) {
       localStorage.removeItem("token");
+      endLoading();
       openAlert(error.response.data.msg, "error");
       return false;
     }
   };
   const UpdateUserData = async (updateData, password) => {
     const token = localStorage.getItem("token");
+    startLoading();
     try {
       const response = await Axios.put(
         `${host}/api/v1/user/update-user`,
@@ -115,6 +131,7 @@ export const ContextProvider = ({ children }) => {
         return;
       }
     } catch (error) {
+      endLoading();
       openAlert(error.response.data.msg, "error");
       return false;
     }
@@ -146,6 +163,8 @@ export const ContextProvider = ({ children }) => {
         UpdateUserData,
         LogOutUser,
         OnChange,
+        startLoading,
+        endLoading,
       }}
     >
       {children}

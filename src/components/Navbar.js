@@ -42,7 +42,13 @@ const Navbar = () => {
               Login
             </Button>
           ) : (
-            <Button href="login" onClick={LogOutUser} color="inherit">
+            <Button
+              onClick={() => {
+                LogOutUser();
+                history("/login");
+              }}
+              color="inherit"
+            >
               Logout
             </Button>
           )}

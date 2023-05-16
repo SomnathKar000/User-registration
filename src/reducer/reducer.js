@@ -51,6 +51,12 @@ const reducer = (state, action) => {
   if (action.type === "CHANGE_EDID_DATA") {
     return { ...state, dialog: { ...state.dialog, value: action.payload } };
   }
+  if (action.type === "START_LOADING") {
+    return { ...state, Loading: true };
+  }
+  if (action.type === "END_LOADING") {
+    return { ...state, Loading: false };
+  }
 
   return { ...state };
 };
