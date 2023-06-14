@@ -19,15 +19,37 @@ This is a web application that allows users to register, login, and manage their
 - Authentication: JWT (JSON Web Tokens)
 - Password Encryption: bcrypt.js
 
-## Prerequisites
-
-Before running the application, make sure you have the following software installed:
-
-- Node.js (https://nodejs.org)
-- MongoDB (https://www.mongodb.com)
-
 ## Installation
 
 1. Clone the repository: `git clone https://github.com/SomnathKar000/User-registration`
-2. Navigate to the project directory: `cd User Registration`
+2. Navigate to the project directory: `cd User-registration`
+3. Change the directory to the backend folder: `cd backend`
+4. Install the backend dependencies: `npm install`
+5. Return to the previous directory: `cd ..`
+6. Install the frontend dependencies: `npm install`
+
+## Environment Variables
+
+1. Create an `.env` file in the root directory of the project.
+2. Define the following environment variables in the `.env` file:
+   - `DB_URL=<your-db-url>` : The MongoDB URL for connecting to the database.
+   - `JWT_SECRET_KEY=<your-secret-key>` : The secret key used for authentication.
+
+## Usage
+
+1. Start the backend server: `npm start` (from the project backend directory)
+2. Start the frontend server: `npm start` (from the project root directory)
+3. Open the application in your browser: `http://localhost:3000`
+
+## Contributing
+
+Contributions are welcome! If you have any suggestions, bug reports, or feature requests, please open an issue or submit a pull request.
+
+## Contact
+
+For more information or questions, feel free to reach out:
+
+- Email: somnathkar2023@gmail.com
+- LinkedIn: [Somnath Kar](https://www.linkedin.com/in/somnath-kar-aa73aa1a3)
+- GitHub: [SomnathKar000](https://github.com/SomnathKar000)
 
